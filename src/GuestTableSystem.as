@@ -1,6 +1,7 @@
 package
 {
 	import com.sty.boardgame.MainView;
+	import com.sty.boardgame.StageMask;
 	
 	import flash.data.SQLConnection;
 	import flash.display.Sprite;
@@ -38,6 +39,8 @@ package
 			
 			mainView = new MainView()
 			tabpane.append(mainView);
+			
+			StageMask.getInstance().setStage(this.stage)
 		}
 	}
 }

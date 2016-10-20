@@ -1,5 +1,6 @@
 package com.sty.boardgame.part
 {
+	import com.sty.boardgame.StageMask;
 	import com.sty.boardgame.event.MyEvent;
 	import com.sty.boardgame.manager.ShopItemManager;
 	import com.sty.boardgame.manager.ShopItemVo;
@@ -60,6 +61,7 @@ package com.sty.boardgame.part
 			timeTf.y = 30
 			playerNumTf = initTF(playerNumTf)
 			playerNumTf.y = 60 
+			StageMask.getInstance().setStage(this.stage)
 			addListener()
 		}
 		
@@ -116,6 +118,7 @@ package com.sty.boardgame.part
 				createTablePopup.addEventListener(MyEvent.CREATE_TABLE , onCreateTable);
 				addFrame(createTablePopup,"Create Table")
 			}else{
+				StageMask.getInstance().addMask()
 				ShopItemManager.getInstance().clearList()
 				for(var i:int = 0 ; i < shopList.length ; i++){
 					var vo:ShopItemVo = new ShopItemVo()

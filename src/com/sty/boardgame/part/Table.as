@@ -1,6 +1,8 @@
 package com.sty.boardgame.part
 {
 	import com.sty.boardgame.event.MyEvent;
+	import com.sty.boardgame.manager.ShopItemManager;
+	import com.sty.boardgame.manager.ShopItemVo;
 	
 	import flash.display.Sprite;
 	import flash.events.Event;
@@ -41,6 +43,10 @@ package com.sty.boardgame.part
 		private var createFrame:JFrame = new JFrame(null,"create table");
 		
 		private var createTablePopup:CreateTablePopup ;
+		
+		private var menuTablePopup:MenuTargetPopup;
+		
+		private var shopList:Array = new Array() ;
 
 		
 		public function Table(_num:int)
@@ -80,9 +86,9 @@ package com.sty.boardgame.part
 			this.addEventListener(MouseEvent.CLICK , onClick)
 		}
 		
-		private function addFrame(_frame:*):void{
+		private function addFrame(_frame:*,_name:String):void{
 			createFrame = new JFrame();
-			createFrame.setTitle("create")
+			createFrame.setTitle(_name)
 			createFrame.setContentPane(_frame);
 			createFrame.show();
 			createFrame.pack();
@@ -108,11 +114,28 @@ package com.sty.boardgame.part
 			if(hasGuest == false){
 				createTablePopup = new CreateTablePopup();
 				createTablePopup.addEventListener(MyEvent.CREATE_TABLE , onCreateTable);
-				addFrame(createTablePopup)
+				addFrame(createTablePopup,"Create Table")
 			}else{
-				onLevelTable();
+				ShopItemManager.getInstance().clearList()
+				for(var i:int = 0 ; i < shopList.length ; i++){
+					var vo:ShopItemVo = new ShopItemVo()
+					vo = shopList[i]
+					ShopItemManager.getInstance().addTarget(vo);
+				}
+				
+				menuTablePopup = new MenuTargetPopup();
+				addFrame(menuTablePopup , "Menu")
+//				onLevelTable();
+				
+				createFrame.addEventListener(Event.REMOVED_FROM_STAGE ,onCloseMenu)
 			}
 			
+		}
+		
+		private function onCloseMenu(e:Event):void{
+			var items:Array = ShopItemManager.getInstance().getAllData();
+			shopList = items
+			trace("shopList",shopList)
 		}
 		
 		private function onLevelTable():void{

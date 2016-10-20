@@ -2,6 +2,7 @@ package
 {
 	import com.sty.boardgame.MainView;
 	
+	import flash.data.SQLConnection;
 	import flash.display.Sprite;
 	
 	import org.aswing.AsWingManager;
@@ -21,6 +22,7 @@ package
 		public function GuestTableSystem()
 		{
 			init();
+			
 		}
 		
 		private function init():void{

@@ -46,8 +46,11 @@ package com.sty.boardgame.part
 		}
 		
 		private function onCreateTable(e):void{
-			var myEvent:MyEvent = new MyEvent(MyEvent.CREATE_TABLE);
-			this.dispatchEvent(myEvent);
+			if(numCombo.getSelectedIndex() != -1){
+				var myEvent:MyEvent = new MyEvent(MyEvent.CREATE_TABLE);
+				myEvent.personNum = numCombo.getSelectedItem()
+				this.dispatchEvent(myEvent);
+			}
 		}
 		
 		private function labelHold(c:Array, text:String,  toolTip:String= null,isSpeical:Boolean = false):void{

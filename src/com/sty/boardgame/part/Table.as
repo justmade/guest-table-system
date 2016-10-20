@@ -20,6 +20,8 @@ package com.sty.boardgame.part
 		private var tableNum:int;
 		
 		private var numTf:TextField;
+		private var timeTf:TextField;
+		private var playerNumTf:TextField
 		
 		private var hasGuest:Boolean = false;
 		
@@ -46,18 +48,24 @@ package com.sty.boardgame.part
 			super();
 			tableNum = _num;
 			initSkin();
-			initNumTf()
+			numTf = initTF(numTf)
+			numTf.text = "桌号：" + tableNum
+			timeTf = initTF(timeTf)
+			timeTf.y = 30
+			playerNumTf = initTF(playerNumTf)
+			playerNumTf.y = 60 
 			addListener()
 		}
 		
-		private function initNumTf():void{
-			numTf 		= new TextField()
-			numTf.defaultTextFormat = new TextFormat(null,18,0x000000,true)
-			numTf.text 	= String(tableNum)
-			numTf.width  = numTf.textWidth + 5;
-			numTf.height = numTf.textHeight + 5;
-			this.addChild(numTf)
-			numTf.mouseEnabled = false
+		private function initTF(_numTf:TextField):TextField{
+			_numTf = new TextField()
+			_numTf.defaultTextFormat = new TextFormat(null,18,0x000000,true)
+			_numTf.text 	= String(" ")
+			_numTf.width  = 200
+			_numTf.height = _numTf.textHeight + 5;
+			this.addChild(_numTf)
+			_numTf.mouseEnabled = false
+			return _numTf
 		}
 		
 		private function initSkin():void{
@@ -87,36 +95,55 @@ package com.sty.boardgame.part
 			createFrame.hide()	
 		}
 		
-		private function onCreateTable(e:Event):void{
+		private function onCreateTable(e:MyEvent):void{
 			createFrame.hide()	
+			playerNum = e.personNum 
+			playerNumTf.text = "人数：" + String(playerNum)
+			onCreateTableComplete()	
 		}
 		
 		
 		protected function onClick(event:MouseEvent):void
 		{
-			createTablePopup = new CreateTablePopup();
-			createTablePopup.addEventListener(MyEvent.CREATE_TABLE , onCreateTable);
-			addFrame(createTablePopup)
-			
-			hasGuest = !hasGuest;
-			if(hasGuest){
-				startDate = new Date().hours;
-				startTime = getTimer();
-				trace(new Date().hours,new Date().minutes)
-				tableSp.graphics.clear();
-				tableSp.graphics.beginFill(0xff6e6e,1);
-				tableSp.graphics.drawRect(0,0,tableWidth,tableHeigh)
-				tableSp.graphics.endFill();
+			if(hasGuest == false){
+				createTablePopup = new CreateTablePopup();
+				createTablePopup.addEventListener(MyEvent.CREATE_TABLE , onCreateTable);
+				addFrame(createTablePopup)
 			}else{
-				endTime = getTimer();
-				var progressTime:int = endTime - startTime;
-				settingTime = progressTime/1000/60;
-				trace("时间" + settingTime + "分钟")
-				tableSp.graphics.clear();
-				tableSp.graphics.beginFill(0x6effd1,1);
-				tableSp.graphics.drawRect(0,0,tableWidth,tableHeigh)
-				tableSp.graphics.endFill();
+				onLevelTable();
 			}
+			
+		}
+		
+		private function onLevelTable():void{
+			hasGuest = false
+			endTime = getTimer();
+			var progressTime:int = endTime - startTime;
+			settingTime = progressTime/1000/60;
+			trace("时间" + settingTime + "分钟")
+			tableSp.graphics.clear();
+			tableSp.graphics.beginFill(0x6effd1,1);
+			tableSp.graphics.drawRect(0,0,tableWidth,tableHeigh)
+			tableSp.graphics.endFill();
+			
+			timeTf.text = ""
+			playerNumTf.text = ""
+		}
+		
+		/**
+		 *创建成功 
+		 * 
+		 */			
+		private function onCreateTableComplete():void{
+			hasGuest = true;
+			startDate = new Date().hours;
+			startTime = getTimer();
+			trace(new Date().hours,new Date().minutes)
+			timeTf.text = "开始时间：" + String(new Date().hours + "时" + new Date().minutes + "分钟")
+			tableSp.graphics.clear();
+			tableSp.graphics.beginFill(0xff6e6e,1);
+			tableSp.graphics.drawRect(0,0,tableWidth,tableHeigh)
+			tableSp.graphics.endFill();
 		}
 	}
 }

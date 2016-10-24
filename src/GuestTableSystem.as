@@ -2,8 +2,8 @@ package
 {
 	import com.sty.boardgame.MainView;
 	import com.sty.boardgame.StageMask;
+	import com.sty.boardgame.load.LoadingMoudle;
 	
-	import flash.data.SQLConnection;
 	import flash.display.Sprite;
 	
 	import org.aswing.AsWingManager;
@@ -23,7 +23,7 @@ package
 		public function GuestTableSystem()
 		{
 			init();
-			
+			var load:LoadingMoudle = new LoadingMoudle();
 		}
 		
 		private function init():void{

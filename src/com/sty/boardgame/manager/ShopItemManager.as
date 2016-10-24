@@ -33,7 +33,7 @@ package com.sty.boardgame.manager
 			
 			var names:Array = ["商品","数量","价格"];
 			
-			var p:Array = ["targetItem","num","price"]
+			var p:Array = ["id","num","price"]
 			
 			var t:Array = new Array(names.length);
 			

@@ -104,7 +104,7 @@ package com.sty.boardgame.part
 				var gameVo:ShopItemVo = new ShopItemVo();
 				var num:Number = Number(valueText.getText())
 				var id:String = String(elementList.getSelectedItem())
-				gameVo.targetItem = id;
+				gameVo.id = id;
 				gameVo.num = num
 				gameVo.price = 5 * num;
 				ShopItemManager.getInstance().addTarget(gameVo);

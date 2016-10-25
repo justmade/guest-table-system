@@ -48,6 +48,9 @@ package com.sty.boardgame.part
 		private var menuTablePopup:MenuTargetPopup;
 		
 		private var shopList:Array = new Array() ;
+		
+		private var menuSp:Sprite ;
+		private var cashSp:Sprite
 
 		
 		public function Table(_num:int)
@@ -63,6 +66,22 @@ package com.sty.boardgame.part
 			playerNumTf.y = 60 
 			
 			addListener()
+			initOption()
+		}
+		
+		private function initOption():void{
+			menuSp = new Sprite();
+			this.addChild(menuSp)
+			menuSp.graphics.beginFill(0x0fa9db,1);
+			menuSp.graphics.drawRect(0,0,tableWidth/2,tableHeigh)
+			menuSp.graphics.endFill();
+			
+			
+			cashSp = new Sprite();
+			this.addChild(cashSp)
+			cashSp.graphics.beginFill(0x9f9b39,1);
+			cashSp.graphics.drawRect(tableWidth/2,0,tableWidth/2,tableHeigh)
+			cashSp.graphics.endFill();
 		}
 		
 		private function initTF(_numTf:TextField):TextField{

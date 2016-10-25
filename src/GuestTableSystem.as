@@ -40,7 +40,6 @@ package
 			mainView = new MainView()
 			tabpane.append(mainView);
 			
-			StageMask.getInstance().setStage(this.stage)
 		}
 	}
 }

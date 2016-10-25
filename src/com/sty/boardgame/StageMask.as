@@ -9,7 +9,7 @@ package com.sty.boardgame
 	{
 		public  var maskSp:Sprite;
 		
-		public  var _stage:Stage
+		public  var _stage:Sprite
 		
 		static private var _instance:StageMask;
 		
@@ -33,7 +33,7 @@ package com.sty.boardgame
 			return maskSp
 		}
 		
-		public function setStage(stage:Stage):void{
+		public function setStage(stage:Sprite):void{
 			_stage = stage
 		}
 		
@@ -42,7 +42,10 @@ package com.sty.boardgame
 		}
 		
 		public function removeMask():void{
-			_stage.removeChild(maskSp)
+			if(maskSp.parent ){
+				_stage.removeChild(maskSp)
+			}
+			
 		}
 	}
 }class Lock{}

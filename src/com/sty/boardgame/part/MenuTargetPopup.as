@@ -1,5 +1,6 @@
 package com.sty.boardgame.part
 {
+	import com.sty.boardgame.manager.ShopElementManager;
 	import com.sty.boardgame.manager.ShopItemManager;
 	import com.sty.boardgame.manager.ShopItemVo;
 	
@@ -38,6 +39,7 @@ package com.sty.boardgame.part
 		private var valueText:JTextField ;
 		private var elementList:JComboBox;
 		
+		private var items:Array
 		
 		public function MenuTargetPopup()
 		{
@@ -57,11 +59,20 @@ package com.sty.boardgame.part
 			srcollPane.setPreferredWidth(200);
 			append(srcollPane);
 			
+			items = ShopElementManager.getInstance().getAllItems()
+			var eArrs:Array = []
 			var arr:Array = new Array();
-			var eArrs:Array = [1,2,3,4,5,6,7,8,9]
-			for(var i:int = 0 ; i < eArrs.length ; i++){
-				arr.push(eArrs[i])
+			for(var i:int = 0 ; i < items.length ; i++ ){
+				var vo:ShopItemVo = items[i]
+				arr.push(vo.name)
 			}
+			
+			
+		
+			
+//			for(var i:int = 0 ; i < eArrs.length ; i++){
+//				arr.push(eArrs[i])
+//			}
 			
 			elementList = new JComboBox();
 			elementList.setPreferredWidth(150);
@@ -103,8 +114,10 @@ package com.sty.boardgame.part
 			if(elementList.getSelectedItem() ){
 				var gameVo:ShopItemVo = new ShopItemVo();
 				var num:Number = Number(valueText.getText())
-				var id:String = String(elementList.getSelectedItem())
-				gameVo.id = id;
+				var index:int = elementList.getSelectedIndex()
+				var vo:ShopItemVo = items[index]
+				gameVo.id = vo.id;
+				gameVo.name = vo.name
 				gameVo.num = num
 				gameVo.price = 5 * num;
 				ShopItemManager.getInstance().addTarget(gameVo);

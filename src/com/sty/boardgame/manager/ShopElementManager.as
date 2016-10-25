@@ -43,6 +43,11 @@ package  com.sty.boardgame.manager
 			}
 		}
 		
+		
+		public function getAllItems():Array{
+			return mapElements 
+		}
+		
 
 		
 	}

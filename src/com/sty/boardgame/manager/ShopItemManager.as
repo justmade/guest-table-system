@@ -31,9 +31,9 @@ package com.sty.boardgame.manager
 		public function init():void{
 			targetLists = new VectorListModel();
 			
-			var names:Array = ["商品","数量","价格"];
+			var names:Array = ["id","商品","数量","价格"];
 			
-			var p:Array = ["id","num","price"]
+			var p:Array = ["id","name","num","price"]
 			
 			var t:Array = new Array(names.length);
 			

@@ -61,7 +61,7 @@ package com.sty.boardgame.part
 			timeTf.y = 30
 			playerNumTf = initTF(playerNumTf)
 			playerNumTf.y = 60 
-			StageMask.getInstance().setStage(this.stage)
+			
 			addListener()
 		}
 		
@@ -92,6 +92,7 @@ package com.sty.boardgame.part
 			createFrame = new JFrame();
 			createFrame.setTitle(_name)
 			createFrame.setContentPane(_frame);
+//			createFrame.setBackgroundDecorator(n
 			createFrame.show();
 			createFrame.pack();
 			createFrame.setLocationXY(1250/2 - createFrame.width/2,750/2 - createFrame.height/2);
@@ -100,6 +101,7 @@ package com.sty.boardgame.part
 		
 		protected function onLostFocusCreateFrame(event):void
 		{
+			StageMask.getInstance().removeMask()
 			createFrame.hide()	
 		}
 		
@@ -114,6 +116,7 @@ package com.sty.boardgame.part
 		protected function onClick(event:MouseEvent):void
 		{
 			if(hasGuest == false){
+				StageMask.getInstance().addMask()
 				createTablePopup = new CreateTablePopup();
 				createTablePopup.addEventListener(MyEvent.CREATE_TABLE , onCreateTable);
 				addFrame(createTablePopup,"Create Table")
@@ -136,6 +139,7 @@ package com.sty.boardgame.part
 		}
 		
 		private function onCloseMenu(e:Event):void{
+			StageMask.getInstance().removeMask()
 			var items:Array = ShopItemManager.getInstance().getAllData();
 			shopList = items
 			trace("shopList",shopList)

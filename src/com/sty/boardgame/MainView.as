@@ -3,9 +3,11 @@ package com.sty.boardgame
 	import com.sty.boardgame.part.Table;
 	
 	import org.aswing.ASColor;
+	import org.aswing.JFrame;
 	import org.aswing.JPanel;
 	import org.aswing.LayoutManager;
 	import org.aswing.border.TitledBorder;
+	import org.aswing.event.WindowEvent;
 	import org.aswing.geom.IntDimension;
 
 	public class MainView extends JPanel
@@ -16,6 +18,7 @@ package com.sty.boardgame
 		
 		private var viewWidth:int
 		private var viewHeight:int
+		
 		public function MainView(layout:LayoutManager=null)
 		{
 			super(layout);
@@ -29,8 +32,12 @@ package com.sty.boardgame
 			board.setPosition(1);
 			board.setBeveled(true);
 			this.setBorder(board);
+			StageMask.getInstance().setStage(this)
 			init();
+//			StageMask.getInstance().addMask()
 		}
+		
+	
 		
 		private function init():void{
 			for(var i:int = 0 ; i < tableNum ; i ++){

@@ -38,41 +38,60 @@ package com.sty.boardgame.part
 		private var idText:JTextField;
 
 		private var valueText:JTextField ;
+		private var addHourText:JTextField;
 		private var elementList:JComboBox;
+		
+		private var basePriceText:JTextField;
+		private var addPriveText:JTextField;
 
 		private var items:Array
+		
+		private var allTimes:int;
 
-		public function AccountPopup()
+		public function AccountPopup(_allTimes:int)
 		{
 			super();
 			setSize(new IntDimension(350, 500));
 //			this.layout = new SoftBoxLayout(SoftBoxLayout.Y_AXIS);
-
+			allTimes = _allTimes
 			init();
 		}
 
 		private function init():void{
 			addRow(new JLabel(" ") ,null)
 
-			items = ShopElementManager.getInstance().getAllItems()
-			var eArrs:Array = []
+//			items = ShopElementManager.getInstance().getAllItems()
 			var arr:Array = new Array();
-			for(var i:int = 0 ; i < items.length ; i++ ){
-				var vo:ShopItemVo = items[i]
-				arr.push(vo.name)
+			for(var i:int = 0 ; i < 3 ; i++ ){
+//				var vo:ShopItemVo = items[i]
+				arr.push(i+1)
 			}
 
 
 			elementList = new JComboBox();
-			elementList.setPreferredWidth(150);
+			elementList.setPreferredWidth(100);
 			elementList.setListData(arr);
-
-
+			elementList.addActionListener(onSelectBaisc)
+			
+			basePriceText = new JTextField("",12)
+			basePriceText.setEditable(false)
+			basePriceText.setEnabled(false)
+			addPriveText = new JTextField("",12) 
+			addPriveText.setEditable(false)
+			addPriveText.setEnabled(false)
+				
+				
 			idText = new JTextField("",12);
 			valueText = new JTextField("",12)
 			valueText.setText("1")
+				
+			addHourText = new JTextField("",12)
+			addHourText.setText("0")
+			addHourText.setEditable(false)
+			addHourText.setEnabled(false)
 
-			labelHold([elementList],"商品：")
+			labelHold([elementList,basePriceText],"基础：",null,true)
+			labelHold([addHourText,addPriveText] , "增加时间",null,true)
 			labelHold([valueText],"Target Value:")
 
 			addItemButton = new JButton("添加");
@@ -87,6 +106,10 @@ package com.sty.boardgame.part
 
 			deleteButton.setToolTipText("Delete a selection item");
 
+		}
+		
+		private function onSelectBaisc(e):void{
+			elementList.getSelectedIndex();
 		}
 
 

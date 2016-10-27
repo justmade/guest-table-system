@@ -166,8 +166,12 @@ package com.sty.boardgame.part
 		}
 
 		private function onClickCash(e:MouseEvent):void{
+			endTime = getTimer();
+			var progressTime:int = endTime - startTime;
+			settingTime = progressTime/1000/60;
+			
 			StageMask.getInstance().addMask()
-			accountPopup = new AccountPopup()
+			accountPopup = new AccountPopup(settingTime)
 			addFrame(accountPopup , "Account")
 		}
 

@@ -4,14 +4,14 @@ package com.sty.boardgame.part
 	import com.sty.boardgame.event.MyEvent;
 	import com.sty.boardgame.manager.ShopItemManager;
 	import com.sty.boardgame.manager.ShopItemVo;
-
+	
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.text.TextField;
 	import flash.text.TextFormat;
 	import flash.utils.getTimer;
-
+	
 	import org.aswing.JButton;
 	import org.aswing.JFrame;
 	import org.aswing.event.WindowEvent;
@@ -164,14 +164,25 @@ package com.sty.boardgame.part
 			addFrame(menuTablePopup , "Menu")
 			createFrame.addEventListener(Event.REMOVED_FROM_STAGE ,onCloseMenu)
 		}
+		
+		private function accountItems():Number{
+			var money:Number = 0 ; 
+			for(var i:int = 0 ; i < shopList.length ; i++){
+				var vo:ShopItemVo = new ShopItemVo()
+				vo = shopList[i]
+				money += vo.price * vo.num
+			}
+			return money
+		}
 
 		private function onClickCash(e:MouseEvent):void{
+			var money:Number = accountItems()
 			endTime = getTimer();
 			var progressTime:int = endTime - startTime;
 			settingTime = progressTime/1000/60;
 			
 			StageMask.getInstance().addMask()
-			accountPopup = new AccountPopup(settingTime)
+			accountPopup = new AccountPopup(settingTime,money)
 			addFrame(accountPopup , "Account")
 		}
 

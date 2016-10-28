@@ -5,19 +5,16 @@ package com.sty.boardgame.part
 	import com.sty.boardgame.manager.ShopItemManager;
 	import com.sty.boardgame.manager.ShopItemVo;
 	
+	import flash.text.TextField;
+	
 	import org.aswing.ASColor;
-	import org.aswing.Component;
-	import org.aswing.Container;
-	import org.aswing.FlowLayout;
 	import org.aswing.JButton;
 	import org.aswing.JComboBox;
 	import org.aswing.JFrame;
 	import org.aswing.JLabel;
-	import org.aswing.JPanel;
 	import org.aswing.JScrollPane;
 	import org.aswing.JTable;
 	import org.aswing.JTextField;
-	import org.aswing.SoftBoxLayout;
 	import org.aswing.ext.Form;
 	import org.aswing.geom.IntDimension;
 
@@ -48,13 +45,18 @@ package com.sty.boardgame.part
 		private var items:Array
 		
 		private var allTimes:int;
+		
+		private var money:Number;
+		
+		private var drinkTf:JTextField;
 
-		public function AccountPopup(_allTimes:int)
+		public function AccountPopup(_allTimes:int , _money:Number)
 		{
 			super();
 			setSize(new IntDimension(350, 500));
 //			this.layout = new SoftBoxLayout(SoftBoxLayout.Y_AXIS);
 			allTimes = _allTimes
+			money    = _money;
 			init();
 		}
 
@@ -90,10 +92,20 @@ package com.sty.boardgame.part
 			addHourText.setText("0")
 			addHourText.setEditable(false)
 			addHourText.setEnabled(false)
-
+				
+			drinkTf = new JTextField("",12)
+			drinkTf.setEditable(false)
+			drinkTf.setEnabled(false)
+			drinkTf.setText(String(money) + "圆")
+				
+			var empty:JTextField = new JTextField(" ",12)
+			empty.setEditable(false)
+			empty.setEnabled(false)
+				
 			labelHold([elementList,basePriceText],"基础：",null,true)
-			labelHold([addHourText,addPriveText] , "增加时间",null,true)
+			labelHold([addHourText,addPriveText] , "增加时间：",null,true)
 			labelHold([valueText],"Target Value:")
+			labelHold([empty,drinkTf],"饮料：",null,true)
 
 			addItemButton = new JButton("添加");
 			append(addItemButton);

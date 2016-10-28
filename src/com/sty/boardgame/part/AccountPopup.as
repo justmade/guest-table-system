@@ -1,5 +1,6 @@
 package com.sty.boardgame.part
 {
+	import com.sty.boardgame.manager.BasicVo;
 	import com.sty.boardgame.manager.ShopElementManager;
 	import com.sty.boardgame.manager.ShopItemManager;
 	import com.sty.boardgame.manager.ShopItemVo;
@@ -60,11 +61,11 @@ package com.sty.boardgame.part
 		private function init():void{
 			addRow(new JLabel(" ") ,null)
 
-//			items = ShopElementManager.getInstance().getAllItems()
+			items = ShopElementManager.getInstance().getAllBasic()
 			var arr:Array = new Array();
-			for(var i:int = 0 ; i < 3 ; i++ ){
-//				var vo:ShopItemVo = items[i]
-				arr.push(i+1)
+			for(var i:int = 0 ; i < items.length ; i++ ){
+				var vo:BasicVo = items[i]
+				arr.push(vo.name)
 			}
 
 
@@ -109,7 +110,15 @@ package com.sty.boardgame.part
 		}
 		
 		private function onSelectBaisc(e):void{
-			elementList.getSelectedIndex();
+			var index:int = elementList.getSelectedIndex();
+			var basicVo:BasicVo = items[index]
+			var value:int = basicVo.price
+			trace("价格",value)
+			basePriceText.setText(String(value) + "圆")
+			var time:int = allTimes - basicVo.min
+			addHourText.setText(String(time) + "分钟")
+			var ex:int = basicVo.extraPrice * (time / 60)
+			addPriveText.setText(String(ex) + "圆")
 		}
 
 

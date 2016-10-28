@@ -12,6 +12,8 @@ package com.sty.boardgame.manager
 		
 		public var name:String;
 		
+		public var min:int = 0
+		
 		public function ShopItemVo()
 		{
 			
@@ -20,8 +22,9 @@ package com.sty.boardgame.manager
 		public static function createShopItemVo(xml:XML):ShopItemVo{
 			var vo:ShopItemVo = new ShopItemVo();
 			vo.id = xml.@id
-			vo.price = xml.@targetItem
+			vo.price = xml.@price
 			vo.name = xml.@name
+			vo.min = xml.@min
 			return vo ; 
 		}
 	}

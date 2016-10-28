@@ -14,7 +14,10 @@ package  com.sty.boardgame.manager
 		
 		public var mapElements:Array
 		
-		public var portals:Array;
+		private var basicDic:Dictionary;
+		
+		public var basicArray:Array
+		
 		
 		
 		
@@ -34,18 +37,31 @@ package  com.sty.boardgame.manager
 		public function initXML(xml:XML):void{
 			mapElementsDic = new Dictionary();
 			mapElements = new Array();
-			portals = new Array();
+			basicDic	= new Dictionary()
+			basicArray  = new Array();
 			for(var i:int=0;i<xml.children().length();i++){
-				var vo:ShopItemVo = ShopItemVo.createShopItemVo(xml.children()[i]);
-				mapElementsDic[vo.id] = vo;
-				trace("[vo.id",vo.id)
-				mapElements.push(vo);
+				var childXml:XML = xml.children()[i]
+//				trace("xml",xml.children()[i])
+				if(childXml.@type == "item"){
+					var vo:ShopItemVo = ShopItemVo.createShopItemVo(childXml);
+					mapElementsDic[vo.id] = vo;
+					mapElements.push(vo);
+				}else if(childXml.@type == "price"){
+					var basicVo:BasicVo = BasicVo.createBasicVo(childXml)
+					basicDic[basicVo.id] = basicVo;
+					basicArray.push(basicVo)
+				}
+			
 			}
 		}
 		
 		
 		public function getAllItems():Array{
 			return mapElements 
+		}
+		
+		public function getAllBasic():Array{
+			return basicArray
 		}
 		
 

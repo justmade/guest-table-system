@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <shopItem>
-  <shopItem id="10001" name="可乐（小）" price="5"/>
-  <shopItem id="10002" name="可乐（大）" price="10"/>
-  <shopItem id="10003" name="橙汁" price="6"/>
+  <shopItem id="10001" name="可乐（小）" price="5" min="0" ex_price="0" type="item"/>
+  <shopItem id="10002" name="可乐（大）" price="10" min="0" ex_price="0" type="item"/>
+  <shopItem id="10003" name="橙汁" price="6" min="0" ex_price="0" type="item"/>
+  <shopItem id="20001" name="1小时套菜" price="30" min="60" ex_price="20" type="price"/>
+  <shopItem id="20002" name="2小时套菜" price="40" min="120" ex_price="15" type="price"/>
+  <shopItem id="20003" name="3小时套菜" price="50" min="180" ex_price="10" type="price"/>
 </shopItem>

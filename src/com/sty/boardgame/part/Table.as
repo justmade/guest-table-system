@@ -182,7 +182,7 @@ package com.sty.boardgame.part
 			settingTime = progressTime/1000/60;
 			
 			StageMask.getInstance().addMask()
-			accountPopup = new AccountPopup(settingTime,money)
+			accountPopup = new AccountPopup(settingTime,money,playerNum)
 			addFrame(accountPopup , "Account")
 		}
 

@@ -40,6 +40,8 @@ package com.sty.boardgame.part
 		private var valueText:JTextField ;
 		private var addHourText:JTextField;
 		private var elementList:JComboBox;
+		private var guestNumberTf:JTextField
+		private var guestNumber:int
 		
 		private var basePriceText:JTextField;
 		private var addPriceText:JTextField;
@@ -54,13 +56,14 @@ package com.sty.boardgame.part
 
 		private var totalPriceTf:JTextField
 		
-		public function AccountPopup(_allTimes:int , _money:Number)
+		public function AccountPopup(_allTimes:int , _money:Number,_playerNum:int)
 		{
 			super();
 			setSize(new IntDimension(350, 500));
 //			this.layout = new SoftBoxLayout(SoftBoxLayout.Y_AXIS);
 			allTimes = _allTimes
 			money    = _money;
+			guestNumber = _playerNum;
 			init();
 		}
 
@@ -92,6 +95,9 @@ package com.sty.boardgame.part
 			valueText = new JTextField("",12)
 			valueText.setText("1")
 				
+			guestNumberTf = new JTextField("",12)
+			guestNumberTf.setText(String(guestNumber))
+				
 			addHourText = new JTextField("",12)
 			addHourText.setText(String(allTimes))
 			addHourText.setEditable(false)
@@ -110,6 +116,7 @@ package com.sty.boardgame.part
 			empty.setEditable(false)
 			empty.setEnabled(false)
 				
+			labelHold([guestNumberTf],"人数：")
 			labelHold([elementList,basePriceText],"基础：",null,true)
 			labelHold([addHourText,addPriceText] , "增加时间：",null,true)
 			labelHold([empty,drinkTf],"饮料：",null,true)
@@ -132,7 +139,7 @@ package com.sty.boardgame.part
 			var time:int = allTimes - basicVo.min
 			time = Math.max(time,0)
 			addHourText.setText(String(time) + "分钟")
-			var ex:int = basicVo.extraPrice * (time / 60)
+			var ex:int = basicVo.extraPrice * (time / 60) * guestNumber
 			addPriceText.setText(String(ex))
 			calTotalPrice()
 		}

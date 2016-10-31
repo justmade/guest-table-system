@@ -5,6 +5,8 @@ package com.sty.boardgame.part
 	import com.sty.boardgame.manager.ShopItemManager;
 	import com.sty.boardgame.manager.ShopItemVo;
 	
+	import flash.events.Event;
+	import flash.events.TextEvent;
 	import flash.text.TextField;
 	
 	import org.aswing.ASColor;
@@ -40,7 +42,7 @@ package com.sty.boardgame.part
 		private var elementList:JComboBox;
 		
 		private var basePriceText:JTextField;
-		private var addPriveText:JTextField;
+		private var addPriceText:JTextField;
 
 		private var items:Array
 		
@@ -50,6 +52,8 @@ package com.sty.boardgame.part
 		
 		private var drinkTf:JTextField;
 
+		private var totalPriceTf:JTextField
+		
 		public function AccountPopup(_allTimes:int , _money:Number)
 		{
 			super();
@@ -79,9 +83,9 @@ package com.sty.boardgame.part
 			basePriceText = new JTextField("",12)
 			basePriceText.setEditable(false)
 			basePriceText.setEnabled(false)
-			addPriveText = new JTextField("",12) 
-			addPriveText.setEditable(false)
-			addPriveText.setEnabled(false)
+			addPriceText = new JTextField("",12) 
+			addPriceText.setEditable(false)
+			addPriceText.setEnabled(false)
 				
 				
 			idText = new JTextField("",12);
@@ -89,36 +93,34 @@ package com.sty.boardgame.part
 			valueText.setText("1")
 				
 			addHourText = new JTextField("",12)
-			addHourText.setText("0")
+			addHourText.setText(String(allTimes))
 			addHourText.setEditable(false)
 			addHourText.setEnabled(false)
 				
 			drinkTf = new JTextField("",12)
 			drinkTf.setEditable(false)
 			drinkTf.setEnabled(false)
-			drinkTf.setText(String(money) + "圆")
+			drinkTf.setText(String(money))
+				
+			totalPriceTf = new JTextField("" ,12)
+			totalPriceTf.setEditable(false)
+			totalPriceTf.setEnabled(false)
 				
 			var empty:JTextField = new JTextField(" ",12)
 			empty.setEditable(false)
 			empty.setEnabled(false)
 				
 			labelHold([elementList,basePriceText],"基础：",null,true)
-			labelHold([addHourText,addPriveText] , "增加时间：",null,true)
-			labelHold([valueText],"Target Value:")
+			labelHold([addHourText,addPriceText] , "增加时间：",null,true)
 			labelHold([empty,drinkTf],"饮料：",null,true)
-
-			addItemButton = new JButton("添加");
+			labelHold([valueText,totalPriceTf],"折扣:",null,true)
+			
+			addItemButton = new JButton("结算");
 			append(addItemButton);
-
-			deleteButton = new JButton("删除");
-			deleteButton.setBackground(ASColor.RED);
-			append(deleteButton);
-
 			addItemButton.addActionListener(onAddTarget);
-			deleteButton.addActionListener(onDelete)
-
-			deleteButton.setToolTipText("Delete a selection item");
-
+//			valueText.addActionListener(onSetSale)
+			valueText.addEventListener(Event.CHANGE , onSetSale)
+			calTotalPrice()
 		}
 		
 		private function onSelectBaisc(e):void{
@@ -126,33 +128,32 @@ package com.sty.boardgame.part
 			var basicVo:BasicVo = items[index]
 			var value:int = basicVo.price
 			trace("价格",value)
-			basePriceText.setText(String(value) + "圆")
+			basePriceText.setText(String(value))
 			var time:int = allTimes - basicVo.min
+			time = Math.max(time,0)
 			addHourText.setText(String(time) + "分钟")
 			var ex:int = basicVo.extraPrice * (time / 60)
-			addPriveText.setText(String(ex) + "圆")
+			addPriceText.setText(String(ex))
+			calTotalPrice()
+		}
+		
+		private function calTotalPrice():void{
+			var basePrice:int =int( basePriceText.getText())
+			var addPrice:int = int(addPriceText.getText())
+			var sale:Number = Number(valueText.getText())
+			var gamePrice:int = (basePrice + addPrice) * sale
+				
+			var drinkPice:int = int(drinkTf.getText())
+			totalPriceTf.setText(String(gamePrice + drinkPice))
+		}
+		
+		private function onSetSale(e):void{
+			calTotalPrice()
 		}
 
-
-		private function onDelete(e):void{
-			var vo:ShopItemVo = ShopItemManager.getInstance().getSelectedTask(table);
-			if(vo){
-				ShopItemManager.getInstance().removeTarget(vo);
-			}
-		}
 
 		private function onAddTarget(e):void{
-			if(elementList.getSelectedItem() ){
-				var gameVo:ShopItemVo = new ShopItemVo();
-				var num:Number = Number(valueText.getText())
-				var index:int = elementList.getSelectedIndex()
-				var vo:ShopItemVo = items[index]
-				gameVo.id = vo.id;
-				gameVo.name = vo.name
-				gameVo.num = num
-				gameVo.price = 5 * num;
-				ShopItemManager.getInstance().addTarget(gameVo);
-			}
+			
 		}
 
 		private function labelHold(c:Array, text:String,  toolTip:String= null,isSpeical:Boolean = false):void{

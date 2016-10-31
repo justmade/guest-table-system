@@ -85,7 +85,7 @@ package com.sty.boardgame.part
 			
 			append(labelHold(elementList,"商品："))
 //			append(labelHold(idText,"Target id:"))
-			append(labelHold(valueText,"Target Value:"))
+			append(labelHold(valueText,"数量:"))
 			
 			
 			addItemButton = new JButton("添加");
@@ -119,7 +119,7 @@ package com.sty.boardgame.part
 				gameVo.id = vo.id;
 				gameVo.name = vo.name
 				gameVo.num = num
-				gameVo.price = 5 * num;
+				gameVo.price = vo.price * num;
 				ShopItemManager.getInstance().addTarget(gameVo);
 			}
 		}

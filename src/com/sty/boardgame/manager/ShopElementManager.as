@@ -1,7 +1,5 @@
 package  com.sty.boardgame.manager
 {
-	import com.mybo.data.ElementType;
-	import com.mybo.data.MapElementVo;
 	
 	import flash.utils.Dictionary;
 
@@ -16,7 +14,11 @@ package  com.sty.boardgame.manager
 		
 		private var basicDic:Dictionary;
 		
+		private var boardGameDic:Dictionary
+		
 		public var basicArray:Array
+		
+		public var boardGameArray:Array
 		
 		
 		
@@ -39,6 +41,7 @@ package  com.sty.boardgame.manager
 			mapElements = new Array();
 			basicDic	= new Dictionary()
 			basicArray  = new Array();
+			boardGameArray = new Array()
 			for(var i:int=0;i<xml.children().length();i++){
 				var childXml:XML = xml.children()[i]
 //				trace("xml",xml.children()[i])
@@ -50,6 +53,10 @@ package  com.sty.boardgame.manager
 					var basicVo:BasicVo = BasicVo.createBasicVo(childXml)
 					basicDic[basicVo.id] = basicVo;
 					basicArray.push(basicVo)
+				}else if(childXml.@type == "game"){
+					var boardVo:BoardGameVo = BoardGameVo.createBoardGameVo(childXml);
+					boardGameDic[boardVo.id] = boardVo
+					boardGameArray.push(boardVo);
 				}
 			
 			}

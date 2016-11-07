@@ -2,6 +2,10 @@ package  com.sty.boardgame.load
 {
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
+	import flash.filesystem.File;
+	import flash.filesystem.FileMode;
+	import flash.filesystem.FileStream;
+	import flash.net.FileReference;
 	import flash.utils.Dictionary;
 	
 	import br.com.stimuli.loading.BulkLoader;
@@ -9,7 +13,7 @@ package  com.sty.boardgame.load
 
 	public class XmlLoader extends EventDispatcher
 	{
-		
+		private var myFileStream:FileStream = new FileStream();
 		
 		private var loader:BulkLoader ;
 		
@@ -37,7 +41,21 @@ package  com.sty.boardgame.load
 				var txt:String = String(loader.getContent(name));
 				txtDic[name] = txt;
 			}
-			dispatchEvent(new Event("MyXmlLoadComplete"));			
+			dispatchEvent(new Event("MyXmlLoadComplete"));		
+			
+			var myFile:File = File.documentsDirectory.resolvePath("res/site.txt");
+			
+			myFileStream.addEventListener(Event.COMPLETE, completed);
+			myFileStream.openAsync(myFile, FileMode.UPDATE);
+			
+			
+		}
+		protected function completed(event:Event):void
+		{
+			var str:String = "";
+			str = myFileStream.readMultiByte(myFileStream.bytesAvailable, "gb2312");
+			myFileStream.writeUTFBytes(str + "111")
+			myFileStream.close()
 		}
 		
 		public function getTxts(name:String):String

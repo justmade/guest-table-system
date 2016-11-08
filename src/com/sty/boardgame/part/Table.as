@@ -46,13 +46,16 @@ package com.sty.boardgame.part
 		private var createTablePopup:CreateTablePopup ;
 
 		private var menuTablePopup:MenuTargetPopup;
+		
+		private var boardGamePopup:GameSelectPopup
 
 		private var accountPopup:AccountPopup
 
 		private var shopList:Array = new Array() ;
 
 		private var menuSp:Sprite ;
-		private var cashSp:Sprite
+		private var cashSp:Sprite;
+		private var boardGameSp:Sprite
 
 
 		public function Table(_num:int)
@@ -78,7 +81,7 @@ package com.sty.boardgame.part
 			menuSp = new Sprite();
 			this.addChild(menuSp)
 			menuSp.graphics.beginFill(0x0fa9db,1);
-			menuSp.graphics.drawRect(0,0,tableWidth/2,tableHeigh)
+			menuSp.graphics.drawRect(0,0,tableWidth,tableHeigh/2)
 			menuSp.graphics.endFill();
 			menuSp.addEventListener(MouseEvent.CLICK , onClickMenu)
 			menuSp.visible = false
@@ -86,11 +89,27 @@ package com.sty.boardgame.part
 			menuTF = initTF(menuTF)
 			menuTF.text = "菜单"
 			menuSp.addChild(menuTF)
+				
+			boardGameSp = new Sprite();
+			this.addChild(boardGameSp);
+			boardGameSp.graphics.beginFill(0xb1c94b,1);
+			boardGameSp.graphics.drawRect(0,tableHeigh/2,tableWidth/2,tableHeigh/2)
+			boardGameSp.graphics.endFill();
+			boardGameSp.visible = false
+			boardGameSp.addEventListener(MouseEvent.CLICK , onClickGame)
+			var boardTF:TextField
+			boardTF = initTF(boardTF)
+			boardTF.width = 100
+			boardTF.text = "列表"
+			boardGameSp.addChild(boardTF)
+			boardTF.x = 0
+			boardTF.y = tableHeigh/2
+			
 
 			cashSp = new Sprite();
 			this.addChild(cashSp)
 			cashSp.graphics.beginFill(0x9f9b39,1);
-			cashSp.graphics.drawRect(tableWidth/2,0,tableWidth/2,tableHeigh)
+			cashSp.graphics.drawRect(tableWidth/2,tableHeigh/2,tableWidth/2,tableHeigh/2)
 			cashSp.graphics.endFill();
 			cashSp.addEventListener(MouseEvent.CLICK , onClickCash)
 			cashSp.visible = false
@@ -100,6 +119,7 @@ package com.sty.boardgame.part
 			cashTF.text = "结账"
 			cashSp.addChild(cashTF)
 			cashTF.x = tableWidth/2
+			cashTF.y = tableHeigh/2
 		}
 
 		private function initTF(_numTf:TextField):TextField{
@@ -141,6 +161,7 @@ package com.sty.boardgame.part
 			StageMask.getInstance().removeMask()
 			menuSp.visible = false
 			cashSp.visible = false
+			boardGameSp.visible = false
 			createFrame.hide()
 		}
 
@@ -149,6 +170,20 @@ package com.sty.boardgame.part
 			playerNum = e.personNum
 			playerNumTf.text = "人数：" + String(playerNum)
 			onCreateTableComplete()
+		}
+		
+		private function onClickGame(e:MouseEvent):void{
+			StageMask.getInstance().addMask()
+			boardGamePopup = new GameSelectPopup()
+			addFrame(boardGamePopup,"BoardGame")
+			createFrame.addEventListener(Event.REMOVED_FROM_STAGE ,onCloseBoardGame)
+		}
+		
+		private function onCloseBoardGame(e:Event):void{
+			StageMask.getInstance().removeMask()
+			menuSp.visible = false
+			cashSp.visible = false
+			boardGameSp.visible = false
 		}
 
 		private function onClickMenu(e:MouseEvent):void{
@@ -197,6 +232,7 @@ package com.sty.boardgame.part
 			}else{
 				menuSp.visible = true
 				cashSp.visible = true
+				boardGameSp.visible = true
 			}
 
 		}
@@ -205,6 +241,7 @@ package com.sty.boardgame.part
 			StageMask.getInstance().removeMask()
 			menuSp.visible = false
 			cashSp.visible = false
+			boardGameSp.visible = false
 			var items:Array = ShopItemManager.getInstance().getAllData();
 			shopList = items
 			trace("shopList",shopList)

@@ -1,7 +1,6 @@
 package
 {
 	import com.sty.boardgame.MainView;
-	import com.sty.boardgame.StageMask;
 	import com.sty.boardgame.load.LoadingMoudle;
 	
 	import flash.display.Sprite;

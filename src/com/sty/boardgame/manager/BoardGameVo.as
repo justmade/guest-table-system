@@ -5,6 +5,7 @@ package com.sty.boardgame.manager
 		public var name:String;
 		
 		public var id:String
+		
 		public function BoardGameVo()
 		{
 		}

@@ -41,6 +41,7 @@
 			mapElements = new Array();
 			basicDic	= new Dictionary()
 			basicArray  = new Array();
+			boardGameDic = new Dictionary()
 			boardGameArray = new Array()
 			for(var i:int=0;i<xml.children().length();i++){
 				var childXml:XML = xml.children()[i]
@@ -62,6 +63,10 @@
 			}
 		}
 		
+		
+		public function getAllGames():Array{
+			return boardGameArray
+		}
 		
 		public function getAllItems():Array{
 			return mapElements 

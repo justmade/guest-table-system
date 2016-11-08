@@ -1,4 +1,4 @@
-package com.sty.boardgame.part
+﻿package com.sty.boardgame.part
 {
 	import com.sty.boardgame.manager.BasicVo;
 	import com.sty.boardgame.manager.ShopElementManager;
@@ -19,6 +19,8 @@ package com.sty.boardgame.part
 	import org.aswing.JTextField;
 	import org.aswing.ext.Form;
 	import org.aswing.geom.IntDimension;
+	import com.sty.boardgame.event.MyEvent;
+	import com.sty.boardgame.manager.AccountVo;
 
 
 
@@ -31,7 +33,7 @@ package com.sty.boardgame.part
 		private var srcollPane:JScrollPane;
 
 
-		private var addItemButton:JButton;
+		private var printButton:JButton;
 
 		private var deleteButton:JButton;
 
@@ -55,6 +57,14 @@ package com.sty.boardgame.part
 		private var drinkTf:JTextField;
 
 		private var totalPriceTf:JTextField
+
+		private var basicAccountVo:AccountVo;
+		
+		private var exAccountVo:AccountVo
+		
+		private var saleAccountVo:AccountVo
+		
+		private var totalAccountVo:AccountVo
 		
 		public function AccountPopup(_allTimes:int , _money:Number,_playerNum:int)
 		{
@@ -122,9 +132,9 @@ package com.sty.boardgame.part
 			labelHold([empty,drinkTf],"饮料：",null,true)
 			labelHold([valueText,totalPriceTf],"折扣:",null,true)
 			
-			addItemButton = new JButton("结算");
-			append(addItemButton);
-			addItemButton.addActionListener(onAddTarget);
+			printButton = new JButton("结算");
+			append(printButton);
+			printButton.addActionListener(onPrintList);
 //			valueText.addActionListener(onSetSale)
 			valueText.addEventListener(Event.CHANGE , onSetSale)
 			calTotalPrice()
@@ -141,6 +151,16 @@ package com.sty.boardgame.part
 			addHourText.setText(String(time) + "分钟")
 			var ex:int = basicVo.extraPrice * (time / 60) * guestNumber
 			addPriceText.setText(String(ex))
+			
+			this.basicAccountVo = new AccountVo()
+			this.basicAccountVo.name = basicVo.name
+			this.basicAccountVo.num = 1
+			this.basicAccountVo.price = value
+			
+			this.exAccountVo	= new AccountVo()
+			
+			
+			
 			calTotalPrice()
 		}
 		
@@ -152,6 +172,8 @@ package com.sty.boardgame.part
 				
 			var drinkPice:int = int(drinkTf.getText())
 			totalPriceTf.setText(String(gamePrice + drinkPice))
+			
+		
 		}
 		
 		private function onSetSale(e):void{
@@ -159,8 +181,9 @@ package com.sty.boardgame.part
 		}
 
 
-		private function onAddTarget(e):void{
-			
+		private function onPrintList(e):void{
+			var evt:MyEvent = new MyEvent(MyEvent.PRINT_LIST)
+			this.dispatchEvent(evt)
 		}
 
 		private function labelHold(c:Array, text:String,  toolTip:String= null,isSpeical:Boolean = false):void{

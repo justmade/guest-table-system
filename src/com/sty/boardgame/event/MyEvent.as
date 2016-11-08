@@ -1,4 +1,4 @@
-package com.sty.boardgame.event
+﻿package com.sty.boardgame.event
 {
 	import flash.events.Event;
 	
@@ -6,6 +6,8 @@ package com.sty.boardgame.event
 	{
 		
 		public static var CREATE_TABLE:String = "CREATE_TABLE";
+		
+		public static var PRINT_LIST:String = "PRINT_LIST"
 		
 		public var personNum:int = 0;
 		

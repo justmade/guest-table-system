@@ -1,4 +1,4 @@
-package com.sty.boardgame.part
+﻿package com.sty.boardgame.part
 {
 	import com.sty.boardgame.event.MyEvent;
 	
@@ -11,6 +11,9 @@ package com.sty.boardgame.part
 	import org.aswing.JTextField;
 	import org.aswing.ext.Form;
 	import org.aswing.geom.IntDimension;
+	import org.aswing.ButtonGroup;
+	import org.aswing.FlowLayout;
+	import org.aswing.JPanel;
 	
 	public class CreateTablePopup extends Form
 	{
@@ -38,10 +41,14 @@ package com.sty.boardgame.part
 			labelHold([numCombo],"人数:");
 			numCombo.setPreferredSize(new IntDimension(100,20))
 				
-			createButton = new JButton("Create"); 
+			createButton = new JButton("Create");
+			var g:JPanel = new JPanel(new FlowLayout(FlowLayout.CENTER,16,5))
+			g.append(createButton)
+		
 			addRow(new JLabel(" ") ,null)
 			addRow(new JLabel(" ") ,null)
-			addRow(null,createButton);
+			addRow(null,g);
+			//this.append(g)
 			createButton.addActionListener(onCreateTable)
 		}
 		

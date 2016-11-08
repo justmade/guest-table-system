@@ -1,7 +1,6 @@
-package  com.sty.boardgame.manager
+﻿package  com.sty.boardgame.manager
 {
-	import com.mybo.data.ElementType;
-	import com.mybo.data.MapElementVo;
+
 	
 	import flash.utils.Dictionary;
 

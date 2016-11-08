@@ -85,9 +85,6 @@ package com.sty.boardgame.part
 			valueText.setText("1")
 			
 			append(labelHold(elementList,"商品："))
-			//			append(labelHold(idText,"Target id:"))
-			append(labelHold(valueText,"数量:"))
-			
 			
 			addItemButton = new JButton("添加");
 			append(addItemButton);
@@ -113,14 +110,12 @@ package com.sty.boardgame.part
 		
 		private function onAddTarget(e):void{
 			if(elementList.getSelectedItem() ){
-				var gameVo:ShopItemVo = new ShopItemVo();
+				var gameVo:BoardGameVo = new BoardGameVo();
 				var num:Number = Number(valueText.getText())
 				var index:int = elementList.getSelectedIndex()
-				var vo:ShopItemVo = items[index]
+				var vo:BoardGameVo = items[index]
 				gameVo.id = vo.id;
 				gameVo.name = vo.name
-				gameVo.num = num
-				gameVo.price = vo.price * num;
 				BoardGameManager.getInstance().addTarget(gameVo);
 			}
 		}

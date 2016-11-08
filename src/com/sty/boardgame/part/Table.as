@@ -2,6 +2,8 @@ package com.sty.boardgame.part
 {
 	import com.sty.boardgame.StageMask;
 	import com.sty.boardgame.event.MyEvent;
+	import com.sty.boardgame.manager.BoardGameManager;
+	import com.sty.boardgame.manager.BoardGameVo;
 	import com.sty.boardgame.manager.ShopItemManager;
 	import com.sty.boardgame.manager.ShopItemVo;
 	
@@ -52,6 +54,8 @@ package com.sty.boardgame.part
 		private var accountPopup:AccountPopup
 
 		private var shopList:Array = new Array() ;
+		
+		private var boardGameList:Array = new Array()
 
 		private var menuSp:Sprite ;
 		private var cashSp:Sprite;
@@ -174,6 +178,12 @@ package com.sty.boardgame.part
 		
 		private function onClickGame(e:MouseEvent):void{
 			StageMask.getInstance().addMask()
+			BoardGameManager.getInstance().clearList()	
+			for(var i:int = 0 ; i < boardGameList.length ; i++){
+				var vo:BoardGameVo = new BoardGameVo()
+				vo = boardGameList[i]
+				BoardGameManager.getInstance().addTarget(vo)
+			}
 			boardGamePopup = new GameSelectPopup()
 			addFrame(boardGamePopup,"BoardGame")
 			createFrame.addEventListener(Event.REMOVED_FROM_STAGE ,onCloseBoardGame)
@@ -184,6 +194,8 @@ package com.sty.boardgame.part
 			menuSp.visible = false
 			cashSp.visible = false
 			boardGameSp.visible = false
+			var items:Array = BoardGameManager.getInstance().getAllData()
+			boardGameList = items
 		}
 
 		private function onClickMenu(e:MouseEvent):void{

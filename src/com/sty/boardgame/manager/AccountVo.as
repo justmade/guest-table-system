@@ -5,9 +5,11 @@
 		
 		public var name:String
 		
-		public var price:Number
+		public var perPrice:Number
 		
 		public var num:int
+		
+		public var total:Number
 		
 		public function AccountVo()
 		{

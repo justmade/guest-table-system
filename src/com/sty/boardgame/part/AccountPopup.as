@@ -1,13 +1,17 @@
 ﻿package com.sty.boardgame.part
 {
+	import com.sty.boardgame.event.MyEvent;
+	import com.sty.boardgame.manager.AccountVo;
 	import com.sty.boardgame.manager.BasicVo;
 	import com.sty.boardgame.manager.ShopElementManager;
 	import com.sty.boardgame.manager.ShopItemManager;
 	import com.sty.boardgame.manager.ShopItemVo;
 	
+	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.TextEvent;
 	import flash.text.TextField;
+	import flash.text.TextFormat;
 	
 	import org.aswing.ASColor;
 	import org.aswing.JButton;
@@ -19,8 +23,6 @@
 	import org.aswing.JTextField;
 	import org.aswing.ext.Form;
 	import org.aswing.geom.IntDimension;
-	import com.sty.boardgame.event.MyEvent;
-	import com.sty.boardgame.manager.AccountVo;
 
 
 
@@ -66,6 +68,8 @@
 		
 		private var totalAccountVo:AccountVo
 		
+		private var printSp:Sprite
+		
 		public function AccountPopup(_allTimes:int , _money:Number,_playerNum:int)
 		{
 			super();
@@ -74,6 +78,7 @@
 			allTimes = _allTimes
 			money    = _money;
 			guestNumber = _playerNum;
+			printSp = new Sprite()
 			init();
 		}
 
@@ -151,29 +156,54 @@
 			addHourText.setText(String(time) + "分钟")
 			var ex:int = basicVo.extraPrice * (time / 60) * guestNumber
 			addPriceText.setText(String(ex))
-			
-			this.basicAccountVo = new AccountVo()
-			this.basicAccountVo.name = basicVo.name
-			this.basicAccountVo.num = 1
-			this.basicAccountVo.price = value
-			
-			this.exAccountVo	= new AccountVo()
-			
-			
+//			
+//			this.basicAccountVo = new AccountVo()
+//			this.basicAccountVo.name = basicVo.name
+//			this.basicAccountVo.num = 1
+//			this.basicAccountVo.perPrice = value
+//			this.basicAccountVo.total    = 1 * value
+//			
+//			this.exAccountVo	  = new AccountVo()
+//			this.exAccountVo.name = "超出时间"
+//			this.exAccountVo.num  =  Math.floor(100 * time / 60) / 100
+//			this.exAccountVo.perPrice = basicVo.extraPrice
+//			this.exAccountVo.total    = basicVo.extraPrice * (time / 60) * guestNumber
 			
 			calTotalPrice()
 		}
 		
 		private function calTotalPrice():void{
-			var basePrice:int =int( basePriceText.getText())
-			var addPrice:int = int(addPriceText.getText())
-			var sale:Number = Number(valueText.getText())
+			var basePrice:int = int( basePriceText.getText())
+			var addPrice:int  = int(addPriceText.getText())
+			var sale:Number   = Number(valueText.getText())
 			var gamePrice:int = (basePrice + addPrice) * sale
 				
 			var drinkPice:int = int(drinkTf.getText())
 			totalPriceTf.setText(String(gamePrice + drinkPice))
 			
 		
+		}
+		
+		private function setPrint(msg:Array):void{
+			var w:int = 0
+			for(var i:int = 0 ; i < msg.length ; i ++){
+				var tf:TextField = initTF(msg[i])
+				printSp.addChild(tf)
+				tf.x = w;
+				tf.y = printSp.height;
+				
+			}
+		}
+		
+		private function initTF(_str:String): TextField {
+			var _numTf:TextField = new TextField()
+			_numTf.defaultTextFormat = new TextFormat(null, 18, 0x000000, true)
+			_numTf.text = String(_str)
+			_numTf.width = _numTf.textWidth
+			_numTf.height = _numTf.textHeight + 5;
+			/*this.addChild(_numTf)*/
+			_numTf.mouseEnabled = false
+			return _numTf
 		}
 		
 		private function onSetSale(e):void{

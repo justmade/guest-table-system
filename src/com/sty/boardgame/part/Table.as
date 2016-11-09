@@ -5,14 +5,14 @@
 	import com.sty.boardgame.manager.BoardGameVo;
 	import com.sty.boardgame.manager.ShopItemManager;
 	import com.sty.boardgame.manager.ShopItemVo;
-
+	
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.text.TextField;
 	import flash.text.TextFormat;
 	import flash.utils.getTimer;
-
+	
 	import org.aswing.JButton;
 	import org.aswing.JFrame;
 	import org.aswing.event.WindowEvent;
@@ -57,6 +57,9 @@
 		private var menuSp:Sprite ;
 		private var cashSp:Sprite;
 		private var boardGameSp:Sprite
+		
+		private var openMenu:Boolean = false
+		private var openBoardGame:Boolean = false
 
 		public function Table(_num: int) {
 			super();
@@ -150,6 +153,7 @@
 			//			createFrame.setBackgroundDecorator(n
 			createFrame.show();
 			createFrame.pack();
+			
 			createFrame.setLocationXY(1250 / 2 - createFrame.width / 2, 750 / 2 - createFrame.height / 2);
 			createFrame.addEventListener(WindowEvent.WINDOW_DEACTIVATED, onLostFocusCreateFrame)
 		}
@@ -160,6 +164,16 @@
 			cashSp.visible = false
 			boardGameSp.visible = false
 			createFrame.hide()
+			if(openBoardGame){
+				openBoardGame = false
+				boardGameList = BoardGameManager.getInstance().getAllData()
+			}
+			
+			if(openMenu){
+				openMenu = false
+				shopList = ShopItemManager.getInstance().getAllData();
+			}
+			trace("boardGameList!!!",boardGameList , shopList)
 		}
 
 		private function onCreateTable(e: MyEvent): void {
@@ -170,6 +184,7 @@
 		}
 		
 		private function onClickGame(e:MouseEvent):void{
+			openBoardGame = true
 			StageMask.getInstance().addMask()
 			BoardGameManager.getInstance().clearList()	
 			for(var i:int = 0 ; i < boardGameList.length ; i++){
@@ -183,15 +198,18 @@
 		}
 		
 		private function onCloseBoardGame(e:Event):void{
+			openBoardGame = false
 			StageMask.getInstance().removeMask()
 			menuSp.visible = false
 			cashSp.visible = false
 			boardGameSp.visible = false
 			var items:Array = BoardGameManager.getInstance().getAllData()
 			boardGameList = items
+			trace("boardGameList" , boardGameList)
 		}
 
 		private function onClickMenu(e: MouseEvent): void {
+			openMenu = true
 			StageMask.getInstance().addMask()
 			ShopItemManager.getInstance().clearList()
 			for (var i: int = 0; i < shopList.length; i++) {
@@ -225,8 +243,18 @@
 			accountPopup = new AccountPopup(settingTime, money, playerNum)
 			addFrame(accountPopup, "Account")
 			accountPopup.addEventListener(MyEvent.PRINT_LIST, onPrintList)
+			accountPopup.addEventListener(Event.REMOVED_FROM_STAGE, onCloseAccount)
 		}
-
+		
+		protected function onCloseAccount(event:Event):void
+		{
+			StageMask.getInstance().removeMask()
+			menuSp.visible = false
+			cashSp.visible = false
+			boardGameSp.visible = false
+			createFrame.hide()
+		}
+		
 		private function onPrintList(e: MyEvent): void {
 			trace("print")
 			StageMask.getInstance().addMask()
@@ -240,6 +268,7 @@
 			StageMask.getInstance().removeMask()
 			menuSp.visible = false
 			cashSp.visible = false
+			boardGameSp.visible = false
 			createFrame.hide()
 		}
 
@@ -258,7 +287,8 @@
 
 		}
 
-		private function onCloseMenu(e: Event): void {
+		private function onCloseMenu(e:Event): void {
+			openMenu = false
 			StageMask.getInstance().removeMask()
 			menuSp.visible = false
 			cashSp.visible = false

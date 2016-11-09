@@ -43,10 +43,10 @@ package  com.sty.boardgame.load
 			}
 			dispatchEvent(new Event("MyXmlLoadComplete"));		
 			
-			var myFile:File = File.documentsDirectory.resolvePath("res/site.txt");
-			
-			myFileStream.addEventListener(Event.COMPLETE, completed);
-			myFileStream.openAsync(myFile, FileMode.UPDATE);
+//			var myFile:File = File.documentsDirectory.resolvePath("res/site.txt");
+//			
+//			myFileStream.addEventListener(Event.COMPLETE, completed);
+//			myFileStream.openAsync(myFile, FileMode.UPDATE);
 			
 			
 		}

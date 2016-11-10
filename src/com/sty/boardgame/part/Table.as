@@ -257,9 +257,9 @@
 		
 		private function onPrintList(e: MyEvent): void {
 			trace("print")
-			StageMask.getInstance().addMask()
 			this.createFrame.hide()
 			var ensurePopup: EnsurePopup = new EnsurePopup();
+			StageMask.getInstance().addMask()
 			addFrame(ensurePopup, "确认打印")
 			createFrame.addEventListener(Event.REMOVED_FROM_STAGE, onEnsureClose)
 		}

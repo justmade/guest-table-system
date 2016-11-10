@@ -10,6 +10,9 @@
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.TextEvent;
+	import flash.geom.Rectangle;
+	import flash.printing.PrintJob;
+	import flash.printing.PrintJobOptions;
 	import flash.text.TextField;
 	import flash.text.TextFormat;
 	
@@ -70,6 +73,8 @@
 		
 		private var printSp:Sprite
 		
+		private var printHeight:int = 0
+		
 		public function AccountPopup(_allTimes:int , _money:Number,_playerNum:int)
 		{
 			super();
@@ -79,6 +84,9 @@
 			money    = _money;
 			guestNumber = _playerNum;
 			printSp = new Sprite()
+			printSp.graphics.beginFill(0x00a0dc,1);
+			printSp.graphics.drawRect(0,0,100,100)
+			printSp.graphics.endFill()
 			init();
 		}
 
@@ -168,7 +176,14 @@
 //			this.exAccountVo.num  =  Math.floor(100 * time / 60) / 100
 //			this.exAccountVo.perPrice = basicVo.extraPrice
 //			this.exAccountVo.total    = basicVo.extraPrice * (time / 60) * guestNumber
+			var times:Number =  Math.floor(100 * time / 60) / 100
+			var total:String =  String(basicVo.extraPrice * (time / 60) * guestNumber)
 			
+//			setPrint([basicVo.name , "1" ,value.toString()])
+//			setPrint(["超出时间" ,times.toString()+"*"+guestNumber.toString() + "*"+basicVo.extraPrice.toString() ,total])
+			
+			setPrint(["test1" , "1" ,value.toString()])
+			setPrint(["test2" ,times.toString()+"*"+guestNumber.toString() + "*"+basicVo.extraPrice.toString() ,total])
 			calTotalPrice()
 		}
 		
@@ -190,16 +205,17 @@
 				var tf:TextField = initTF(msg[i])
 				printSp.addChild(tf)
 				tf.x = w;
-				tf.y = printSp.height;
-				
+				tf.y = printHeight
+				w = w + tf.width
 			}
+			printHeight = printHeight + tf.height
 		}
 		
 		private function initTF(_str:String): TextField {
 			var _numTf:TextField = new TextField()
-			_numTf.defaultTextFormat = new TextFormat(null, 18, 0x000000, true)
+			_numTf.defaultTextFormat = new TextFormat(null, 10, 0x000000, true)
 			_numTf.text = String(_str)
-			_numTf.width = _numTf.textWidth
+			_numTf.width = _numTf.textWidth + 5
 			_numTf.height = _numTf.textHeight + 5;
 			/*this.addChild(_numTf)*/
 			_numTf.mouseEnabled = false
@@ -212,8 +228,35 @@
 
 
 		private function onPrintList(e):void{
-			var evt:MyEvent = new MyEvent(MyEvent.PRINT_LIST)
-			this.dispatchEvent(evt)
+			this.addChild(printSp);
+			doPrint()
+			
+//			var evt:MyEvent = new MyEvent(MyEvent.PRINT_LIST)
+//			this.dispatchEvent(evt)
+		}
+		
+		private function doPrint():void{
+			var myPrintJob:PrintJob = new PrintJob(); 
+			var options:PrintJobOptions = new PrintJobOptions(); 
+			options.printAsBitmap = true; 
+			myPrintJob.start();
+			printSp.width = myPrintJob.pageWidth/2
+			printSp.height = myPrintJob.pageHeight/2
+			
+			try { 
+				if (myPrintJob.start()) {
+					myPrintJob.addPage(printSp); 
+				}
+			}
+			catch(e:Error) { 
+				trace ("Had problem adding the page to print job: " + e); 
+			}
+			try {
+				myPrintJob.send();
+			} 
+			catch (e:Error) { 
+				trace ("Had problem printing: " + e);    
+			} 
 		}
 
 		private function labelHold(c:Array, text:String,  toolTip:String= null,isSpeical:Boolean = false):void{

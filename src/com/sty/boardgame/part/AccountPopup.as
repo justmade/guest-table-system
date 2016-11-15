@@ -26,6 +26,7 @@
 	import org.aswing.JTextField;
 	import org.aswing.ext.Form;
 	import org.aswing.geom.IntDimension;
+	import mc.Cashier;
 
 
 
@@ -75,6 +76,9 @@
 		
 		private var printHeight:int = 0
 		
+		private var currentHour:int;
+		private var currentMins:int ;
+		
 		public function AccountPopup(_allTimes:int , _money:Number,_playerNum:int)
 		{
 			super();
@@ -84,9 +88,13 @@
 			money    = _money;
 			guestNumber = _playerNum;
 			printSp = new Sprite()
-			printSp.graphics.beginFill(0x00a0dc,1);
-			printSp.graphics.drawRect(0,0,100,100)
-			printSp.graphics.endFill()
+			var logo:Cashier = new Cashier()
+			printSp.addChild(logo);
+			//printSp.graphics.beginFill(0x00a0dc,1);
+			//printSp.graphics.drawRect(0,0,100,100)
+			//printSp.graphics.endFill()
+			currentHour = new Date().hours;
+			currentMins = new Date().minutes
 			init();
 		}
 
@@ -159,31 +167,23 @@
 			var value:int = basicVo.price
 			trace("价格",value)
 			basePriceText.setText(String(value))
-			var time:int = allTimes - basicVo.min
-			time = Math.max(time,0)
-			addHourText.setText(String(time) + "分钟")
-			var ex:int = basicVo.extraPrice * (time / 60) * guestNumber
-			addPriceText.setText(String(ex))
-//			
-//			this.basicAccountVo = new AccountVo()
-//			this.basicAccountVo.name = basicVo.name
-//			this.basicAccountVo.num = 1
-//			this.basicAccountVo.perPrice = value
-//			this.basicAccountVo.total    = 1 * value
-//			
-//			this.exAccountVo	  = new AccountVo()
-//			this.exAccountVo.name = "超出时间"
-//			this.exAccountVo.num  =  Math.floor(100 * time / 60) / 100
-//			this.exAccountVo.perPrice = basicVo.extraPrice
-//			this.exAccountVo.total    = basicVo.extraPrice * (time / 60) * guestNumber
+			var overHours:int = this.currentHour -  basicVo.min
+			if(overHours >= 0){
+				var overMins:int = this.currentMins 
+				var time:Number = overHours * 60 + overMins
+				addHourText.setText(String(time) + "分钟")
+				var ex:int = basicVo.extraPrice * (time / 60) * guestNumber
+				addPriceText.setText(String(ex))
+			}else{
+					addHourText.setText("0分钟")
+					addPriceText.setText("0")
+			}
+			
+
 			var times:Number =  Math.floor(100 * time / 60) / 100
 			var total:String =  String(basicVo.extraPrice * (time / 60) * guestNumber)
 			
-//			setPrint([basicVo.name , "1" ,value.toString()])
-//			setPrint(["超出时间" ,times.toString()+"*"+guestNumber.toString() + "*"+basicVo.extraPrice.toString() ,total])
 			
-			setPrint(["test1" , "1" ,value.toString()])
-			setPrint(["test2" ,times.toString()+"*"+guestNumber.toString() + "*"+basicVo.extraPrice.toString() ,total])
 			calTotalPrice()
 		}
 		
@@ -228,7 +228,7 @@
 
 
 		private function onPrintList(e):void{
-			this.addChild(printSp);
+			//this.addChild(printSp);
 			doPrint()
 			
 //			var evt:MyEvent = new MyEvent(MyEvent.PRINT_LIST)
@@ -238,25 +238,13 @@
 		private function doPrint():void{
 			var myPrintJob:PrintJob = new PrintJob(); 
 			var options:PrintJobOptions = new PrintJobOptions(); 
-			options.printAsBitmap = true; 
+			options.printAsBitmap = false; 
 			myPrintJob.start();
-			printSp.width = myPrintJob.pageWidth/2
-			printSp.height = myPrintJob.pageHeight/2
+			//printSp.width = myPrintJob.pageWidth/2
+			//printSp.height = myPrintJob.pageHeight/2
+			myPrintJob.addPage(printSp); 
+			myPrintJob.send();
 			
-			try { 
-				if (myPrintJob.start()) {
-					myPrintJob.addPage(printSp); 
-				}
-			}
-			catch(e:Error) { 
-				trace ("Had problem adding the page to print job: " + e); 
-			}
-			try {
-				myPrintJob.send();
-			} 
-			catch (e:Error) { 
-				trace ("Had problem printing: " + e);    
-			} 
 		}
 
 		private function labelHold(c:Array, text:String,  toolTip:String= null,isSpeical:Boolean = false):void{

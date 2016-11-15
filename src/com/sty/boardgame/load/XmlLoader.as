@@ -1,10 +1,10 @@
-package  com.sty.boardgame.load
+﻿package  com.sty.boardgame.load
 {
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
-	import flash.filesystem.File;
-	import flash.filesystem.FileMode;
-	import flash.filesystem.FileStream;
+	//import flash.filesystem.File;
+	//import flash.filesystem.FileMode;
+	//import flash.filesystem.FileStream;
 	import flash.net.FileReference;
 	import flash.utils.Dictionary;
 	
@@ -13,7 +13,7 @@ package  com.sty.boardgame.load
 
 	public class XmlLoader extends EventDispatcher
 	{
-		private var myFileStream:FileStream = new FileStream();
+		//private var myFileStream:FileStream = new FileStream();
 		
 		private var loader:BulkLoader ;
 		
@@ -52,10 +52,10 @@ package  com.sty.boardgame.load
 		}
 		protected function completed(event:Event):void
 		{
-			var str:String = "";
-			str = myFileStream.readMultiByte(myFileStream.bytesAvailable, "gb2312");
-			myFileStream.writeUTFBytes(str + "111")
-			myFileStream.close()
+			//var str:String = "";
+			//str = myFileStream.readMultiByte(myFileStream.bytesAvailable, "gb2312");
+			//myFileStream.writeUTFBytes(str + "111")
+			//myFileStream.close()
 		}
 		
 		public function getTxts(name:String):String

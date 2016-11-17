@@ -31,6 +31,10 @@
 		private var startDate: Number;
 
 		private var startTime: Number;
+		
+		private var startHours:int;
+		
+		private var startMins:int
 
 		private var endTime: Number;
 
@@ -320,6 +324,7 @@
 		private function onCreateTableComplete(): void {
 			hasGuest = true;
 			startDate = new Date().hours;
+			startHours =  new Date().hours;
 			startTime = getTimer();
 			trace(new Date().hours, new Date().minutes)
 			timeTf.text = "开始时间：" + String(new Date().hours + "时" + new Date().minutes + "分钟")

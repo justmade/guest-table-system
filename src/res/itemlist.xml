@@ -3,9 +3,12 @@
   <shopItem id="10001" name="可乐（小）" price="5" min="0" ex_price="0" type="item"/>
   <shopItem id="10002" name="可乐（大）" price="10" min="0" ex_price="0" type="item"/>
   <shopItem id="10003" name="橙汁" price="6" min="0" ex_price="0" type="item"/>
-  <shopItem id="20001" name="半场13:00-18:00" price="59" min="18" ex_price="10" type="price"/>
-  <shopItem id="20002" name="半场18:00-23:00" price="59" min="23" ex_price="10" type="price"/>
-  <shopItem id="20003" name="全场13:00-23:00" price="99" min="23" ex_price="10" type="price"/>
+  <shopItem id="20001" name="大房间-半场13:00-18:00" price="59" min="13" ex_price="10" type="price"/>
+  <shopItem id="20002" name="大房间-半场18:00-23:00" price="59" min="23" ex_price="10" type="price"/>
+  <shopItem id="20003" name="大房间-全场13:00-23:00" price="99" min="23" ex_price="10" type="price"/>
+  <shopItem id="20004" name="小房间-半场13:00-18:00" price="49" min="18" ex_price="10" type="price"/>
+  <shopItem id="20005" name="小房间-半场18:00-23:00" price="49" min="23" ex_price="10" type="price"/>
+  <shopItem id="20006" name="小房间-全场13:00-23:00" price="79" min="23" ex_price="10" type="price"/>
   <shopItem id="30001" name="卡坦岛" price="" min="" ex_price="" type="game"/>
   <shopItem id="30002" name="狼人" price="" min="" ex_price="" type="game"/>
 </shopItem>

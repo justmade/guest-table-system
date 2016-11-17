@@ -16,6 +16,8 @@
 	import flash.text.TextField;
 	import flash.text.TextFormat;
 	
+	import mc.Cashier;
+	
 	import org.aswing.ASColor;
 	import org.aswing.JButton;
 	import org.aswing.JComboBox;
@@ -26,7 +28,6 @@
 	import org.aswing.JTextField;
 	import org.aswing.ext.Form;
 	import org.aswing.geom.IntDimension;
-	import mc.Cashier;
 
 
 
@@ -78,6 +79,7 @@
 		
 		private var currentHour:int;
 		private var currentMins:int ;
+		private var cashier:Cashier
 		
 		public function AccountPopup(_allTimes:int , _money:Number,_playerNum:int)
 		{
@@ -88,8 +90,8 @@
 			money    = _money;
 			guestNumber = _playerNum;
 			printSp = new Sprite()
-			var logo:Cashier = new Cashier()
-			printSp.addChild(logo);
+			cashier = new Cashier()
+			printSp.addChild(cashier);
 			//printSp.graphics.beginFill(0x00a0dc,1);
 			//printSp.graphics.drawRect(0,0,100,100)
 			//printSp.graphics.endFill()
@@ -128,6 +130,7 @@
 				
 			guestNumberTf = new JTextField("",12)
 			guestNumberTf.setText(String(guestNumber))
+			guestNumberTf.addEventListener(Event.CHANGE , onTextChange)
 				
 			addHourText = new JTextField("",12)
 			addHourText.setText(String(allTimes))
@@ -161,28 +164,52 @@
 			calTotalPrice()
 		}
 		
-		private function onSelectBaisc(e):void{
+		private function onTextChange(e):void{
+			onSelectBaisc()
+		}
+		
+		private function onSelectBaisc(e=null):void{
+			guestNumber = int(guestNumberTf.getText())
 			var index:int = elementList.getSelectedIndex();
 			var basicVo:BasicVo = items[index]
-			var value:int = basicVo.price
+			var value:int = basicVo.price * guestNumber
 			trace("价格",value)
 			basePriceText.setText(String(value))
 			var overHours:int = this.currentHour -  basicVo.min
-			if(overHours >= 0){
-				var overMins:int = this.currentMins 
+			var overMins:int = this.currentMins
+			cashier.tfBasic.text = 	basicVo.name
+			cashier.tfBasicPrice.text = String(basicVo.price)
+			cashier.tfPeople1.text   = String(guestNumber)
+			if((overHours >0) || (overHours==0 && overMins > 30)){
 				var time:Number = overHours * 60 + overMins
 				addHourText.setText(String(time) + "分钟")
 				var ex:int = basicVo.extraPrice * (time / 60) * guestNumber
 				addPriceText.setText(String(ex))
+				
+				var displayMins:String
+				if(overMins < 10){
+					displayMins = "0" + overMins
+				}else{
+					displayMins = String(overMins)
+				}
+				
+				cashier.ex.visible = true
+				cashier.ex.tfEx.text        = "超时"+String(basicVo.min) +":00-" + this.currentHour + ":" + displayMins
+				cashier.ex.tfExPrice.text   = String(basicVo.extraPrice * (time / 60))
+				cashier.ex.tfPeople2.text   = String(guestNumber)
+					
 			}else{
-					addHourText.setText("0分钟")
-					addPriceText.setText("0")
+				cashier.ex.visible = false
+				addHourText.setText("0分钟")
+				addPriceText.setText("0")
 			}
 			
 
 			var times:Number =  Math.floor(100 * time / 60) / 100
-			var total:String =  String(basicVo.extraPrice * (time / 60) * guestNumber)
-			
+			var total:String =  String(basicVo.extraPrice * (time / 60) * guestNumber)			
+				
+				
+		
 			
 			calTotalPrice()
 		}
@@ -193,9 +220,13 @@
 			var sale:Number   = Number(valueText.getText())
 			var gamePrice:int = (basePrice + addPrice) * sale
 				
+			cashier.tfSale.text = String(sale)
+			cashier.tfTableCost.text = String(gamePrice)
+				
 			var drinkPice:int = int(drinkTf.getText())
 			totalPriceTf.setText(String(gamePrice + drinkPice))
 			
+				
 		
 		}
 		
@@ -228,11 +259,12 @@
 
 
 		private function onPrintList(e):void{
-			//this.addChild(printSp);
-			doPrint()
-			
+			GuestTableSystem.wstage.addChild(printSp)
+//			this.addChild(printSp);
+//			doPrint()
 //			var evt:MyEvent = new MyEvent(MyEvent.PRINT_LIST)
 //			this.dispatchEvent(evt)
+//			this.
 		}
 		
 		private function doPrint():void{

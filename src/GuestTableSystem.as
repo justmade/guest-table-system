@@ -4,9 +4,12 @@ package
 	import com.sty.boardgame.load.LoadingMoudle;
 	
 	import flash.display.Sprite;
+	import flash.display.Stage;
+	import flash.geom.Rectangle;
 	import flash.printing.PrintJob;
 	import flash.printing.PrintJobOptions;
 	import flash.text.TextField;
+	import flash.utils.setTimeout;
 	
 	import org.aswing.AsWingManager;
 	import org.aswing.EmptyLayout;
@@ -23,6 +26,8 @@ package
 		
 		private var mainView:MainView;
 		
+		public static var wstage:Stage
+		
 		public function GuestTableSystem()
 		{
 			init();
@@ -30,6 +35,7 @@ package
 		}
 		
 		private function init():void{
+			wstage = this.stage
 			AsWingManager.setRoot(this);
 			WINDOW = new JWindow(this);
 			
@@ -41,37 +47,31 @@ package
 			WINDOW.show();
 			
 			mainView = new MainView()
-			tabpane.append(mainView);
-			
-			var sp:Sprite = new Sprite()
-			var tf:TextField = new TextField()
-			tf.text = "test print"
-			sp.addChild(tf)
-			this.addChild(sp)
-				
-				
-			var myPrintJob:PrintJob = new PrintJob(); 
-			var options:PrintJobOptions = new PrintJobOptions(); 
-			options.printAsBitmap = true; 
-			myPrintJob.start();
-			
-			
-			
-			try { 
-				if (myPrintJob.start()) {
-					myPrintJob.addPage(sp, null, options); 
-				}
-			}
-			catch(e:Error) { 
-				trace ("Had problem adding the page to print job: " + e); 
-			}
-			try {
-				myPrintJob.send();
-			} 
-			catch (e:Error) { 
-				trace ("Had problem printing: " + e);    
-			} 
-			
+			tabpane.append(mainView);				
+		}
+		
+		private function printt():void{
+//			var myPrintJob:PrintJob = new PrintJob(); 
+//			var options:PrintJobOptions = new PrintJobOptions(); 
+//			options.printAsBitmap = true; 
+//			myPrintJob.start();
+//			
+//			
+//			
+//			try { 
+//				if (myPrintJob.start()) {
+//					myPrintJob.addPage(this, new Rectangle(0,0,200,200), options); 
+//				}
+//			}
+//			catch(e:Error) { 
+//				trace ("Had problem adding the page to print job: " + e); 
+//			}
+//			try {
+//				myPrintJob.send();
+//			} 
+//			catch (e:Error) { 
+//				trace ("Had problem printing: " + e);    
+//			} 
 		}
 	}
 }

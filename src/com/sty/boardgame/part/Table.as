@@ -244,7 +244,7 @@
 			settingTime = progressTime / 1000 / 60;
 
 			StageMask.getInstance().addMask()
-			accountPopup = new AccountPopup(settingTime, money, playerNum)
+			accountPopup = new AccountPopup(settingTime, money, playerNum,startHours,startMins,tableNum,shopList)
 			addFrame(accountPopup, "Account")
 			accountPopup.addEventListener(MyEvent.PRINT_LIST, onPrintList)
 			accountPopup.addEventListener(Event.REMOVED_FROM_STAGE, onCloseAccount)

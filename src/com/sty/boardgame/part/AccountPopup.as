@@ -28,6 +28,7 @@
 	import org.aswing.JTextField;
 	import org.aswing.ext.Form;
 	import org.aswing.geom.IntDimension;
+	import mc.Item;
 
 
 
@@ -81,7 +82,8 @@
 		private var currentMins:int ;
 		private var cashier:Cashier
 		
-		public function AccountPopup(_allTimes:int , _money:Number,_playerNum:int)
+		public function AccountPopup(_allTimes:int , _money:Number,_playerNum:int,_hous:int,
+																				_mins:int,_tableNum:int,_shopList:Array)
 		{
 			super();
 			setSize(new IntDimension(350, 500));
@@ -96,7 +98,39 @@
 			//printSp.graphics.drawRect(0,0,100,100)
 			//printSp.graphics.endFill()
 			currentHour = new Date().hours;
-			currentMins = new Date().minutes
+			currentMins = new Date().minutes;
+			
+			var displayMins2:String = ""
+				if(currentMins < 10){
+					displayMins2 = "0" + currentMins
+				}else{
+					displayMins2 = String(currentMins)
+				}
+				
+			var displayMin1:String = ""
+				if(_mins < 10){
+					displayMin1 = "0" + _mins
+				}else{
+					displayMin1 = String(_mins)
+				}
+			cashier.tfTime.text = _hous +":"+ displayMin1 + "-" + currentHour +":"+ displayMins2
+				cashier.tfData.text = new Date().fullYear + "/"+ (new Date().month+1) +  "/"+ new Date().date
+				
+			for(var i:int = 0 ; i < _shopList.length ; i++){
+				var item:mc.Item = new Item()
+				cashier.addChild(item)
+				item.x  = 8
+				item.y  = 180 + i * item.height
+				var name:String = _shopList[i].name
+				var price:int =  _shopList[i].price
+				var amounts:int = _shopList[i].num
+				item.tfItemName.text = name
+				item.tfItemNum.text = price + "*" + amounts
+				item.tfItemPrice.text = String(price * amounts)
+			}
+			cashier.drink.tfDrinkCost.text = String(money)
+			cashier.drink.y = 180 + _shopList.length * item.height
+				
 			init();
 		}
 
@@ -227,7 +261,7 @@
 			totalPriceTf.setText(String(gamePrice + drinkPice))
 			
 				
-		
+				cashier.drink.tfTotalCost.text = String(gamePrice + drinkPice)
 		}
 		
 		private function setPrint(msg:Array):void{

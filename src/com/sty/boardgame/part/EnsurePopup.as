@@ -1,15 +1,16 @@
 ﻿package com.sty.boardgame.part
 {
-	import org.aswing.ext.Form;
-	import org.aswing.JButton;
-	import org.aswing.ButtonGroup;
-	import org.aswing.JPanel;
-	import org.aswing.JLabel;
-	import org.aswing.JTextField;
-	import org.aswing.ASColor;
-
-	import org.aswing.FlowLayout
+	import com.sty.boardgame.event.MyEvent;
 	
+	import org.aswing.ASColor;
+	import org.aswing.ButtonGroup;
+	import org.aswing.FlowLayout;
+	import org.aswing.JButton;
+	import org.aswing.JLabel;
+	import org.aswing.JPanel;
+	import org.aswing.JTextField;
+	import org.aswing.ext.Form;
+
 	public class EnsurePopup extends Form
 	{
 		
@@ -26,7 +27,13 @@
 				btnNo  = new JButton("取消");
 				buttonPanel.appendAll(btnYes,btnNo);
 				this.addRow(buttonPanel)
-				
+				btnYes.addActionListener(onEnsurePrint)
+			}
+			
+			private function onEnsurePrint(e):void
+			{
+				var evt:MyEvent = new MyEvent(MyEvent.ENSURE_PRINT_LIST)
+				this.dispatchEvent(evt)
 			}
 			
 			private function labelHold(c:Array, text:String,  toolTip:String= null,isSpeical:Boolean = false):void{

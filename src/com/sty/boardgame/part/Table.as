@@ -9,6 +9,8 @@
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
+	import flash.printing.PrintJob;
+	import flash.printing.PrintJobOptions;
 	import flash.text.TextField;
 	import flash.text.TextFormat;
 	import flash.utils.getTimer;
@@ -64,6 +66,8 @@
 		
 		private var openMenu:Boolean = false
 		private var openBoardGame:Boolean = false
+			
+		private var cashierPrintList:Sprite
 
 		public function Table(_num: int) {
 			super();
@@ -259,13 +263,39 @@
 			createFrame.hide()
 		}
 		
-		private function onPrintList(e: MyEvent): void {
+		private function onPrintList(e:MyEvent): void {
 			trace("print")
+			cashierPrintList = e.printSp
 			this.createFrame.hide()
 			var ensurePopup: EnsurePopup = new EnsurePopup();
 			StageMask.getInstance().addMask()
 			addFrame(ensurePopup, "确认打印")
 			createFrame.addEventListener(Event.REMOVED_FROM_STAGE, onEnsureClose)
+			ensurePopup.addEventListener(MyEvent.ENSURE_PRINT_LIST , onEnsurePrint)	
+		}
+		
+		protected function onEnsurePrint(event:Event):void
+		{
+			onLevelTable()
+//			var myPrintJob:PrintJob = new PrintJob(); 
+//			var options:PrintJobOptions = new PrintJobOptions(); 
+//			options.printAsBitmap = false; 
+//			myPrintJob.start();
+//			//printSp.width = myPrintJob.pageWidth/2
+//			//printSp.height = myPrintJob.pageHeight/2
+//			myPrintJob.addPage(cashierPrintList); 
+//			myPrintJob.send();
+			
+			StageMask.getInstance().removeMask()
+			menuSp.visible = false
+			cashSp.visible = false
+			boardGameSp.visible = false
+			createFrame.hide()
+				
+			tableSp.graphics.clear()
+			tableSp.graphics.beginFill(0x6effd1, 1);
+			tableSp.graphics.drawRect(0, 0, tableWidth, tableHeigh)
+			tableSp.graphics.endFill();
 		}
 		
 		private function onEnsureClose(e:Event):void{
@@ -304,15 +334,7 @@
 
 		private function onLevelTable(): void {
 			hasGuest = false
-			endTime = getTimer();
-			var progressTime: int = endTime - startTime;
-			settingTime = progressTime / 1000 / 60;
-			trace("时间" + settingTime + "分钟")
-			tableSp.graphics.clear();
-			tableSp.graphics.beginFill(0x6effd1, 1);
-			tableSp.graphics.drawRect(0, 0, tableWidth, tableHeigh)
-			tableSp.graphics.endFill();
-
+			shopList = []
 			timeTf.text = ""
 			playerNumTf.text = ""
 		}
@@ -325,6 +347,7 @@
 			hasGuest = true;
 			startDate = new Date().hours;
 			startHours =  new Date().hours;
+			startMins = new Date().minutes
 			startTime = getTimer();
 			trace(new Date().hours, new Date().minutes)
 			timeTf.text = "开始时间：" + String(new Date().hours + "时" + new Date().minutes + "分钟")

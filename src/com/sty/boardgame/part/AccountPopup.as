@@ -114,8 +114,9 @@
 					displayMin1 = String(_mins)
 				}
 			cashier.tfTime.text = _hous +":"+ displayMin1 + "-" + currentHour +":"+ displayMins2
-				cashier.tfData.text = new Date().fullYear + "/"+ (new Date().month+1) +  "/"+ new Date().date
+			cashier.tfData.text = new Date().fullYear + "/"+ (new Date().month+1) +  "/"+ new Date().date
 				
+			var item:mc.Item = new Item()
 			for(var i:int = 0 ; i < _shopList.length ; i++){
 				var item:mc.Item = new Item()
 				cashier.addChild(item)
@@ -128,6 +129,12 @@
 				item.tfItemNum.text = price + "*" + amounts
 				item.tfItemPrice.text = String(price * amounts)
 			}
+			if(_shopList.length != 0){
+				cashier.drink.tfDrinkOther.visible = false
+			}else{
+				cashier.drink.tfDrinkOther.visible = true
+			}
+			
 			cashier.drink.tfDrinkCost.text = String(money)
 			cashier.drink.y = 180 + _shopList.length * item.height
 				
@@ -296,8 +303,9 @@
 			GuestTableSystem.wstage.addChild(printSp)
 //			this.addChild(printSp);
 //			doPrint()
-//			var evt:MyEvent = new MyEvent(MyEvent.PRINT_LIST)
-//			this.dispatchEvent(evt)
+			var evt:MyEvent = new MyEvent(MyEvent.PRINT_LIST)
+			evt.printSp = printSp
+			this.dispatchEvent(evt)
 //			this.
 		}
 		

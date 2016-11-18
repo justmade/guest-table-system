@@ -9,7 +9,7 @@
   <shopItem id="20004" name="2号房-半场13:00-18:00" price="49" min="18" ex_price="10" type="price"/>
   <shopItem id="20005" name="2号房-半场18:00-23:00" price="49" min="23" ex_price="10" type="price"/>
   <shopItem id="20006" name="2号房-全场13:00-23:00" price="79" min="23" ex_price="10" type="price"/>
-  <shopItem id="20007" name="大厅" price="30" min="-180" ex_price="10" type="price"/>
+  <shopItem id="20007" name="大厅" price="30" min="-1" ex_price="10" type="price"/>
   <shopItem id="30001" name="卡坦岛" price="" min="" ex_price="" type="game"/>
   <shopItem id="30002" name="狼人" price="" min="" ex_price="" type="game"/>
 </shopItem>

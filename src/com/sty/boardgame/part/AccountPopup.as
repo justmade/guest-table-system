@@ -228,7 +228,8 @@
 				if((overHours >0) || (overHours==0 && overMins > 30)){
 					var time:Number = overHours * 60 + overMins
 					addHourText.setText(String(time) + "分钟")
-					var ex:int = basicVo.extraPrice * (time / 60) * guestNumber
+					var ex:int = Math.floor( basicVo.extraPrice * (time / 60)  * guestNumber)
+					
 					addPriceText.setText(String(ex))
 					
 					var displayMins:String
@@ -239,7 +240,7 @@
 					}
 					cashier.ex.visible = true
 					cashier.ex.tfEx.text        = "超时"+String(basicVo.min) +":00-" + this.currentHour + ":" + displayMins
-					cashier.ex.tfExPrice.text   = String(basicVo.extraPrice * (time / 60))
+					cashier.ex.tfExPrice.text   = String(Math.floor(basicVo.extraPrice * (time / 60)))
 					cashier.ex.tfPeople2.text   = String(guestNumber)
 				}else{
 					cashier.ex.visible = false
@@ -247,6 +248,8 @@
 					addPriceText.setText("0")
 				}
 			}else{
+				allTimes = 190
+				trace("allTimes",allTimes)
 				var overTimes:int = Math.max(allTimes + basicVo.min,0)
 				var overHours:int = int(overTimes/60)
 				var overMins:int = overTimes - overHours * 60
@@ -258,7 +261,7 @@
 				if((overHours >0) || (overHours==0 && overMins > 0)){
 					var time:Number = overTimes
 					addHourText.setText(String(time) + "分钟")
-					var ex:int = basicVo.extraPrice * (time / 60) * guestNumber
+					var ex:int =  Math.floor(basicVo.extraPrice * (time / 60) * guestNumber)
 					addPriceText.setText(String(ex))
 						
 					var displayMins:String
@@ -277,10 +280,11 @@
 						lastHour +=1
 					}
 					
+					cashier.tfBasic.text += startHour + ":" + displayMins + "-" + displayHours +":"+displayMins 
 					
 					cashier.ex.visible = true
 					cashier.ex.tfEx.text        = "超时"+displayHours +":"+displayMins +"-" +lastHour + ":" + lastMins
-					cashier.ex.tfExPrice.text   = String(basicVo.extraPrice * (time / 60))
+					cashier.ex.tfExPrice.text   = String(Math.floor(basicVo.extraPrice * (time / 60)))
 					cashier.ex.tfPeople2.text   = String(guestNumber)
 						
 				}else{
